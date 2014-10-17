@@ -25,8 +25,7 @@ tuples of their x and y components, so you can use `(,)` as a constructor.
 @docs arrow
 -}
 
-{-| A two-dimensional vector is represented by its x and y components.
--}
+{-| A two-dimensional vector is represented by its x and y components. -}
 type Vec2 = (Float, Float)
 
 {-| The zero vector. -}
