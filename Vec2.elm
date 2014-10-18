@@ -10,12 +10,12 @@ tuples of their x and y components, so you can use `(,)` as a constructor.
 @docs zero2, one2, right2, left2, up2, down2
 
 # Operators
-@docs @+, @-, @*, @/, @.
+@docs (@+), (@-), (@*), (@/), (@.)
 
 # Comparisons
 Compare two vectors by length.
 
-@docs @<, @<=, @=, @>, @>=
+@docs (@<), (@<=), (@=), (@>), (@>=)
 
 # Scaling
 @docs unit2, scale2, scalei2, withlen2, neg2, inv2
