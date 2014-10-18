@@ -12,6 +12,11 @@ tuples of their x and y components, so you can use `(,)` as a constructor.
 # Operators
 @docs @+, @-, @*, @/, @.
 
+# Comparisons
+Compare two vectors by length.
+
+@docs @<, @<=, @=, @>, @>=
+
 # Scaling
 @docs unit2, scale2, scalei2, withlen2, neg2, inv2
 
@@ -25,7 +30,8 @@ tuples of their x and y components, so you can use `(,)` as a constructor.
 @docs arrow
 -}
 
-{-| A two-dimensional vector is represented by its x and y components. -}
+{-| A two-dimensional vector is represented by its x and y components.
+-}
 type Vec2 = (Float, Float)
 
 {-| The zero vector. -}
@@ -83,6 +89,23 @@ down2 = (0,-1)
 (x,y) @. (x',y') = x*x' + y*y'
 
 bin2 f (x,y) (x',y') = (f x x', f y y')
+
+(@<) : Vec2 -> Vec2 -> Bool
+(@<) = compare2 (<)
+
+(@<=) : Vec2 -> Vec2 -> Bool
+(@<=) = compare2 (<=)
+
+(@=) : Vec2 -> Vec2 -> Bool
+(@=) = compare2 (==)
+
+(@>=) : Vec2 -> Vec2 -> Bool
+(@>=) = compare2 (>=)
+
+(@>) : Vec2 -> Vec2 -> Bool
+(@>) = compare2 (>)
+
+compare2 f u v = lensqr2 u `f` lensqr2 v
 
 {-| Normalize a vector, i.e., compute a vector in the same direction with length 1.
 
