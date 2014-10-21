@@ -187,6 +187,13 @@ rotate a (x,y) =
   let (c,s) = (cos a,sin a) in
   (c*x - s*y, s*x + c*y)
 
+{-| Rotate a vector counterclockwise around the given center by the given angle.
+
+      rotateAround (1,1) (degrees 90) (3,4) == (-2,3)
+-}
+rotateAround : Vec2 -> Float -> Vec2 -> Vec2
+rotateAround c a = sum c << rotate a << subtract c
+
 {-| Reflect a vector horizontally (across the y axis).
 
       flipX (1,7) == (-1,7)
