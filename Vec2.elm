@@ -13,10 +13,13 @@ tuples of their x and y components, so you can use `(,)` as a constructor.
 @docs sum, difference, subtract, product, quotient, dot
 
 # Scaling
-@docs normalize, scale, scaleInverse, withLength, invert, reciprocate
+@docs normalize, scale, scaleInverse, withLength, invert
+
+# Rotating
+@docs rotateLeft, rotateRight, rotate, rotateAround
 
 # Transforming
-@docs rotateLeft, rotateRight, rotate, flipX, flipY, map
+@docs flipX, flipY, reciprocate, map
 
 # Accessing
 @docs theta, length, lengthSquared, angle
