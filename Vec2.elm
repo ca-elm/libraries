@@ -189,7 +189,7 @@ reciprocate (x,y) = (1/x,1/y)
 {-| Rotate a vector counterclockwise by the given angle.
 
       rotate (degrees 90) (3,4) == (-4,3)
-      rotate (degrees 90) up2 == left2
+      rotate (degrees 90) up == left
 -}
 rotate : Float -> Vec2 -> Vec2
 rotate a (x,y) =
@@ -227,7 +227,7 @@ theta (x,y) = atan2 y x
 
 {-| Compute the smaller angle between two vectors.
 
-      angle up2 left2 == degrees 90
+      angle up left == degrees 90
 -}
 angle : Vec2 -> Vec2 -> Float
 angle u v = (u @. v) / length u / length v |> acos
