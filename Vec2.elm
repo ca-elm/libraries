@@ -16,7 +16,7 @@ tuples of their x and y components, so you can use `(,)` as a constructor.
 @docs normalize, scale, scaleInverse, withLength, invert, reciprocate
 
 # Transforming
-@docs rotateLeft, rotateRight, rotate, flipX, flipY, fmap
+@docs rotateLeft, rotateRight, rotate, flipX, flipY, map
 
 # Accessing
 @docs theta, length, lengthSquared, angle
@@ -203,10 +203,10 @@ flipY (x,y) = (x,-y)
   
 {-| Map a function over the components of a vector.
 
-      fmap (\x -> x^2) (4,5) == (16,25)
+      map (\x -> x^2) (4,5) == (16,25)
 -}
-fmap : (Float -> Float) -> Vec2 -> Vec2
-fmap f (x,y) = (f x, f y)
+map : (Float -> Float) -> Vec2 -> Vec2
+map f (x,y) = (f x, f y)
 
 {-| Compute the angle between a vector and the positive x axis, i.e., the angle
 between the vector and `right`.
