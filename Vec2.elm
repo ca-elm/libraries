@@ -10,7 +10,7 @@ tuples of their x and y components, so you can use `(,)` as a constructor.
 @docs zero, one, right, left, up, down
 
 # Operators
-@docs add, subtract, multiply, divide, dot
+@docs sum, difference, subtract, product, quotient, dot
 
 # Scaling
 @docs normalize, scale, scaleInverse, withLength, invert, reciprocate
