@@ -30,25 +30,29 @@ Compare two vectors by length.
 @docs arrow
 -}
 
-{-| A two-dimensional vector is represented by its x and y components.
--}
+{-| A two-dimensional vector is represented by its x and y components. -}
 type Vec2 = (Float, Float)
 
 {-| The zero vector. -}
 zero : Vec2
 zero = (0,0)
+
 {-| A vector of ones: `(1,1)`. -}
 one : Vec2
 one = (1,1)
+
 {-| A unit vector pointing to the right. -}
 right : Vec2
 right = (1,0)
+
 {-| A unit vector pointing to the left. -}
 left : Vec2
 left = (-1,0)
+
 {-| A unit vector pointing up. -}
 up : Vec2
 up = (0,1)
+
 {-| A unit vector pointing down. -}
 down : Vec2
 down = (0,-1)
