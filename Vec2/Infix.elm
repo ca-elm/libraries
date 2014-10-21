@@ -1,11 +1,31 @@
 module Vec2.Infix where
 
-import Vec2 as V
+{-| An extension to the vector library which adds infix operators. You should
+import this module with an open import, i.e., `import Vec2.Infix (..)`.
 
-type Vec2 = V.Vec2
+# Types
+@docs Vec2
 
-(!+) = V.sum
-(!-) = V.difference
-(!*) = V.product
-(!/) = V.quotient
-(!.) = V.dot
+# Operators
+@docs (!+), (!-), (!*), (!/), (!.)
+-}
+
+import Vec2
+
+{-| For convenience, this module also exports the `Vec2` type. -}
+type Vec2 = Vec2.Vec2
+
+(!+) : Vec2 -> Vec2 -> Vec2
+(!+) = Vec2.sum
+
+(!-) : Vec2 -> Vec2 -> Vec2
+(!-) = Vec2.difference
+
+(!*) : Vec2 -> Vec2 -> Vec2
+(!*) = Vec2.product
+
+(!/) : Vec2 -> Vec2 -> Vec2
+(!/) = Vec2.quotient
+
+(!.) : Vec2 -> Vec2 -> Float
+(!.) = Vec2.dot
