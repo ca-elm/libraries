@@ -12,11 +12,6 @@ tuples of their x and y components, so you can use `(,)` as a constructor.
 # Operators
 @docs (@+), (@-), (@*), (@/), (@.)
 
-# Comparisons
-Compare two vectors by length.
-
-@docs (@<), (@<=), (@=), (@>), (@>=)
-
 # Scaling
 @docs normalize, scale, scaleInverse, withLength, invert, reciprocate
 
@@ -93,23 +88,6 @@ down = (0,-1)
 (x,y) @. (x',y') = x*x' + y*y'
 
 binary f (x,y) (x',y') = (f x x', f y y')
-
-(@<) : Vec2 -> Vec2 -> Bool
-(@<) = compareWith (<)
-
-(@<=) : Vec2 -> Vec2 -> Bool
-(@<=) = compareWith (<=)
-
-(@=) : Vec2 -> Vec2 -> Bool
-(@=) = compareWith (==)
-
-(@>=) : Vec2 -> Vec2 -> Bool
-(@>=) = compareWith (>=)
-
-(@>) : Vec2 -> Vec2 -> Bool
-(@>) = compareWith (>)
-
-compareWith f u v = lengthSquared u `f` lengthSquared v
 
 {-| Normalize a vector, i.e., compute a vector in the same direction with length 1.
 
