@@ -9,6 +9,12 @@ tuples of their x and y components, so you can use `(,)` as a constructor.
 # Constant Vectors
 @docs zero, one, right, left, up, down
 
+# Accessing
+@docs length, lengthSquared, theta
+
+# Comparing
+@docs distance, distanceSquared, angle
+
 # Arithmetic
 @docs sum, difference, subtract, product, quotient, dot
 
@@ -20,9 +26,6 @@ tuples of their x and y components, so you can use `(,)` as a constructor.
 
 # Transforming
 @docs flipX, flipY, reciprocate, map
-
-# Accessing
-@docs theta, length, lengthSquared, angle
 
 # Converting
 @docs fromInts
@@ -228,6 +231,21 @@ between the vector and `right`.
 -}
 theta : Vec2 -> Float
 theta (x,y) = atan2 y x
+
+{-| Compute the distance between two vectors.
+
+      V.distance (1,2) (-2,-2) == 5 
+-}
+distance : Vec2 -> Vec2 -> Float
+distance a = length << difference a
+
+{-| Compute the square of the distance between two vectors. This is faster than
+computing the distance and can still be used to compare distances.
+
+      V.distanceSquared (1,2) (5,3) == 17
+-}
+distanceSquared : Vec2 -> Vec2 -> Float
+distanceSquared a = lengthSquared << difference a
 
 {-| Compute the smaller angle between two vectors.
 
