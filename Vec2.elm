@@ -10,7 +10,7 @@ tuples of their x and y components, so you can use `(,)` as a constructor.
 @docs zero, one, right, left, up, down
 
 # Operators
-@docs (@+), (@-), (@*), (@/), (@.)
+@docs add, subtract, multiply, divide, dot
 
 # Scaling
 @docs normalize, scale, scaleInverse, withLength, invert, reciprocate
@@ -52,42 +52,52 @@ up = (0,1)
 down : Vec2
 down = (0,-1)
 
-{-| Add the components of two vectors.
+{-| Compute the componentwise sum of two vectors.
 
-      (1,2) @+ (3,4) == (4,6)
+      sum (1,2) (3,4) == (4,6)
 -}
-(@+) : Vec2 -> Vec2 -> Vec2
-(@+) = binary (+)
+sum : Vec2 -> Vec2 -> Vec2
+sum = binary (+)
 
-{-| Subtract the components of two vectors.
+{-| Compute the componentwise difference between two vectors.
 
-      (5,7) @- (3,4) == (2,3)
+      difference (5,7) (3,4) == (2,3)
 -}
-(@-) : Vec2 -> Vec2 -> Vec2
-(@-) = binary (-)
+difference : Vec2 -> Vec2 -> Vec2
+difference = binary (-)
 
-{-| Multiply the components of two vectors.
+{-| Subtract the components of a vector from those of another.
 
-      (3,2) @* (3,4) == (9,8)
+      subtract (3,4) (5,7) == (2,3)
+      map (subtract one) [(3,4), (1,5)] == [(2,3), (0,4)]
+      
+Note that `subtract` is the same thing as `flip difference`
 -}
-(@*) : Vec2 -> Vec2 -> Vec2
-(@*) = binary (*)
+subtract : Vec2 -> Vec2 -> Vec2
+subtract = flip difference
 
-{-| Divide the components of two vectors.
+{-| Compute the componentwise product of two vectors.
 
-      (6,8) @/ (3,2) == (2,4)
+      product (3,2) (3,4) == (9,8)
 -}
-(@/) : Vec2 -> Vec2 -> Vec2
-(@/) = binary (/)
+product : Vec2 -> Vec2 -> Vec2
+product = binary (*)
+
+{-| Compute the componentwise quotient of two vectors.
+
+      quotient (6,8) (3,2) == (2,4)
+-}
+quotient : Vec2 -> Vec2 -> Vec2
+quotient = binary (/)
+
+binary f (x,y) (x',y') = (f x x', f y y')
 
 {-| Compute the dot product of two vectors.
 
-      (2,3) @. (4,5) == 23
+      dot (2,3) (4,5) == 23
 -}
-(@.) : Vec2 -> Vec2 -> Float
-(x,y) @. (x',y') = x*x' + y*y'
-
-binary f (x,y) (x',y') = (f x x', f y y')
+dot : Vec2 -> Vec2 -> Float
+dot (x,y) (x',y') = x*x' + y*y'
 
 {-| Normalize a vector, i.e., compute a vector in the same direction with length 1.
 
@@ -107,7 +117,6 @@ scale u (x,y) = (x*u, y*u)
 {-| Scale the components of a vector by the reciprocal of a scalar factor.
 
       scaleInverse 3 (3,6) == (1,2)
-      scale x . scaleInverse x == id
 -}
 scaleInverse : Float -> Vec2 -> Vec2
 scaleInverse u (x, y) = (x/u, y/u)
@@ -139,6 +148,8 @@ length = sqrt << lengthSquared
 {-| Rotate a vector 90 degrees counterclockwise (to the left).
 
       rotateLeft (3,4) == (-4,3)
+
+Note that `rotateLeft` is the same thing as `invert << rotateRight`.
 -}
 rotateLeft : Vec2 -> Vec2
 rotateLeft (x,y) = (-y,x)
@@ -146,7 +157,8 @@ rotateLeft (x,y) = (-y,x)
 {-| Rotate a vector 90 degrees clockwise (to the right).
 
       rotateRight (3,4) == (4,-3)
-      rotateRight == invert . rotateLeft
+
+Note that `rotateRight` is the same thing as `invert << rotateLeft`.
 -}
 rotateRight : Vec2 -> Vec2
 rotateRight (x,y) = (y,-x)
@@ -197,7 +209,7 @@ fmap : (Float -> Float) -> Vec2 -> Vec2
 fmap f (x,y) = (f x, f y)
 
 {-| Compute the angle between a vector and the positive x axis, i.e., the angle
-between the vector and `right2`.
+between the vector and `right`.
 
       theta (1,1) == degrees 45
 -}
@@ -213,7 +225,7 @@ angle u v = (u @. v) / length u / length v |> acos
 
 {-| Create a path which draws an arrow between two points.
 
-      main = collage 400 400 [
+      collage 400 400 [
         arrow 10 (0,0) (100,40) |> traced (solid blue)]
 -}
 arrow : Float -> Vec2 -> Vec2 -> Path
