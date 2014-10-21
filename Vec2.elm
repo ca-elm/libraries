@@ -120,8 +120,9 @@ e.g. ``(2,3) `withLength` 5``.
 withLength : Vec2 -> Float -> Vec2
 withLength v l = normalize v |> scale l
 
-{-| Computes the square of the length of a vector. This is faster and can be
-used to compare lengths, e.g., `lengthSquared (3,4) < lengthSquared (2, 5)`.
+{-| Computes the square of the length of a vector. This is faster than
+computing the length and can still be used to compare lengths, e.g.,
+`lengthSquared (3,4) < lengthSquared (2, 5)`.
 
       lengthSquared (1,4) == 17
 -}
