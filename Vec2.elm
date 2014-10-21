@@ -9,7 +9,7 @@ tuples of their x and y components, so you can use `(,)` as a constructor.
 # Constant Vectors
 @docs zero, one, right, left, up, down
 
-# Operators
+# Arithmetic
 @docs sum, difference, subtract, product, quotient, dot
 
 # Scaling
@@ -23,6 +23,9 @@ tuples of their x and y components, so you can use `(,)` as a constructor.
 
 # Accessing
 @docs theta, length, lengthSquared, angle
+
+# Converting
+@docs fromInts
 
 # Drawing
 @docs arrow
@@ -232,6 +235,13 @@ theta (x,y) = atan2 y x
 -}
 angle : Vec2 -> Vec2 -> Float
 angle u v = dot u v / length u / length v |> acos
+
+{-| Convert a vector of ints to a Vec2
+
+      lift fromInts Mouse.position
+-}
+fromInts : (Int,Int) -> Vec2
+fromInts (x,y) = (toFloat x, toFloat y)
 
 {-| Create a path which draws an arrow between two points.
 
