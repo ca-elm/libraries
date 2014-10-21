@@ -136,7 +136,7 @@ computing the length and can still be used to compare lengths, e.g.,
       lengthSquared (1,4) == 17
 -}
 lengthSquared : Vec2 -> Float
-lengthSquared u = u @. u
+lengthSquared u = dot u u
 
 {-| Computes the square of the length of a vector.
 
@@ -221,7 +221,7 @@ theta (x,y) = atan2 y x
       angle up left == degrees 90
 -}
 angle : Vec2 -> Vec2 -> Float
-angle u v = (u @. v) / length u / length v |> acos
+angle u v = dot u v / length u / length v |> acos
 
 {-| Create a path which draws an arrow between two points.
 
@@ -230,7 +230,7 @@ angle u v = (u @. v) / length u / length v |> acos
 -}
 arrow : Float -> Vec2 -> Vec2 -> Path
 arrow r p q =
-  let d = p @- q |> normalize
+  let d = difference p q |> normalize
       e = scale r <| rotate (degrees -45) d
       f = scale r <| rotate (degrees 45) d in
-  path [p, q, q @+ e, q, q @+ f]
+  path [p, q, sum q e, q, sum q f]
