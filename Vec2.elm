@@ -13,7 +13,7 @@ tuples of their x and y components, so you can use `(,)` as a constructor.
 @docs length, lengthSquared, theta
 
 # Comparing
-@docs distance, distanceSquared, angle
+@docs distance, distanceSquared, angle, min, max
 
 # Arithmetic
 @docs sum, difference, subtract, product, quotient, dot
@@ -33,6 +33,8 @@ tuples of their x and y components, so you can use `(,)` as a constructor.
 # Drawing
 @docs arrow
 -}
+
+import Basics
 
 {-| A two-dimensional vector is represented by its x and y components. -}
 type Vec2 = (Float, Float)
@@ -253,6 +255,20 @@ distanceSquared a = lengthSquared << difference a
 -}
 angle : Vec2 -> Vec2 -> Float
 angle u v = dot u v / length u / length v |> acos
+
+{-| Compute the componentwise minimum of two vectors
+
+      min (2,5) (3,1) == (2,1)
+-}
+min : Vec2 -> Vec2 -> Vec2
+min (x,y) (x',y') = (Basics.min x x', Basics.min y y')
+
+{-| Compute the componentwise maximum of two vectors
+
+      max (2,5) (3,1) == (3,5)
+-}
+max : Vec2 -> Vec2 -> Vec2
+max (x,y) (x',y') = (Basics.max x x', Basics.max y y')
 
 {-| Convert a vector of ints to a Vec2
 
