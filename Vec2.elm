@@ -25,7 +25,7 @@ tuples of their x and y components, so you can use `(,)` as a constructor.
 @docs rotateLeft, rotateRight, rotate, rotateAround
 
 # Transforming
-@docs flipX, flipY, reciprocate, map
+@docs flipX, flipY, transpose, reciprocate, map
 
 # Converting
 @docs fromInts
@@ -218,6 +218,13 @@ flipX (x,y) = (-x,y)
 -}
 flipY : Vec2 -> Vec2
 flipY (x,y) = (x,-y)
+
+{-| Swap the components of a vector.
+
+      transpose (4,7) == (7,4)
+-}
+transpose : Vec2 -> Vec2
+transpose (x,y) = (y,x)
   
 {-| Map a function over the components of a vector.
 
