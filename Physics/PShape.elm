@@ -1,81 +1,76 @@
-module PShape where
+module Physics.PShape where
 
 {-| A library for the creation and manipulation of physics shapes.
 
 #Types
-@docs Shape
+@docs PShape
 
 #Creation
-@docs createCircle, createAABB, createPoly, aabbToPoly
+@docs pcircle, paabb, ppoly
 
 #Conversion
-@docs points, psides
+@docs aabbToPoly, psides, sidesToPoly, toShape
 
 #Manipulation
-@docs rotate
+@docs rotatePShape
 
 -}
 
-import Vec2 (zero, rotate, invert)
+import Vec2 (zero, rotateAround, invert, lengthSquared)
 import Vec2.Infix (..)
+import Util.List (mapnl, mapnr)
 
 -- #Types
 
 {-| An abstract representation of a shape. Can be a circle, axis aligned
-bounding box, arbitrary polygon, or an invalid structure. -}
+bounding box, or an arbitrary polygon. PShapes all should start at (0, 0)
+as they are an abstract representation of a shape, not a shape at a
+particular location. -}
 data PShape
-	= Circle Float  -- Circle
-	| AABB Vec2     -- Axis Aligned Bounding Box
-	| Poly [Vec2]   -- Arbitrary polygon
+  = Circle Float  -- Circle
+  | AABB Vec2     -- Axis Aligned Bounding Box
+  | Poly [Vec2]   -- Arbitrary polygon
 
--- #Creation
+{-| Creates a PShape of the type cirlce with radius r -}
+pcircle : Float -> PShape
+pcircle r = if | r > 0 -> Circle r
 
-{-| Creates a cirlce with radius r or InvalidStruct if the radius is <= 0. -}
-createCircle : Float -> PShape
-createCircle r = if | r > 0 -> Circle r
+{-| Creates an AABB (axis aligned bounding box) with extents described by a vector. -}
+paabb : Vec2 -> PShape
+paabb (x, y) = if | (x > 0 || y > 0) -> AABB (x, y)
 
-{-| Creates an AABB with extends described by a vector. -}
-createAABB : Vec2 -> PShape
-createAABB (x, y) = if | (x > 0 || y > 0) -> AABB (x, y)
-
-{-| Creates an arbitrary polygon with sides described by a list of vectors. -}
-createPoly : [Vec2] -> PShape
-createPoly sides
-	= if | foldl (!+) (0, 0) sides == (0, 0) -> Poly sides 
+{-| Creates an arbitrary polygon from a list of its points -}
+ppoly : [Vec2] -> PShape
+ppoly points = Poly points
 
 {-| Creates a polygon from an AABB. -}
-aabbToPoly : Shape -> Shape
-aabbToPoly (AABB (x, y)) = Poly [(x, 0), (0, y), (-1 * x, 0), (0, -1 * y)]
+aabbToPoly : PShape -> PShape
+aabbToPoly (AABB (x, y)) = ppoly [(0, 0), (x, 0), (x, y), (0, y)]
 
--- #Conversion
+{-| Gets a polygon's sides as a list of vectors -}
+psides : PShape -> [Vec2]
+psides (Poly points) = mapnr (!-) (head points) points
 
-{-| Gets the absolute coordinates of each point on a shape assuming the origin
-point is (0, 0). -}
-points : Shape -> [Vec2]
-points s =
-	case s of
-		Circle r -> [(0, 0)]
-		AABB (x, y) -> [(0, 0), (x, 0), (x, y), (0, y)]
-		Poly sides -> scanl (!+) (0, 0) (take ((length sides) - 1) sides)
-
-{-| Creates a polygon given its points in order -}
-psides : [Vec2] -> Shape
-psides points
-	= Poly ((tail (scanl (!-) (0, 0) (tail points))) ++ [((0, 0) !- (last points))])
-
--- #Manipulation
+{-| Creates a polygon (starting at 0,0) from a list of vectors describing its sides -}
+sidesToPoly : [Vec2] -> PShape
+sidesToPoly sides
+  = Poly (scanl (!+) (0, 0) sides |> (take ((length sides) - 1)))
 
 {-| Rotates a shape around a point relative to the origin (where the shape
 starts at the origin) -}
-rotateShape : Shape -> Vec2 -> Float -> Shape
-rotateShape shape offset angle =
-	let pset = points shape in
-		tP points offset = map (\v -> v !+ offset) points
-		rP a points = map (\p -> rotate a p) points
-	case shape of
-		Circle r -> Circle r
-		AABB extents -> rotateShape (aabbToPoly shape) offset angle
-		Poly sides -> psides (tP(rP (tP pset offset) (0, 0) angle) (invert offset))
+rotatePShape : PShape -> Vec2 -> Float -> PShape
+rotatePShape shape offset angle
+  = case shape of
+    Circle r -> Circle r
+    AABB extents -> rotatePShape (aabbToPoly shape) offset angle
+    Poly points -> Poly (map (rotateAround offset angle) points)
+
+toShape : PShape -> Shape
+toShape shape =
+  case shape of
+    Circle r -> circle r
+    AABB (width, height) -> rect width height
+    Poly points -> polygon points
 
 
 
