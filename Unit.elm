@@ -6,7 +6,12 @@ type Test a b = (String, (a -> b), [a], [b])
 
 type TestGroup a b = (String, [Test a b])
 
+type Suite = [String]
+
 {- Example test suites -}
+
+sampleSuite : Suite
+sampleSuite = [arithmeticPass, arithmeticFail, booleanPass, booleanFail]
 
 arithmeticPass : String
 arithmeticPass = runTests ("Arithmetic (pass example)",
@@ -63,7 +68,7 @@ runTests (name, tests)
   = let suiteResults = map run tests 
     in "Group: " ++ name ++ "\n\n" ++ (join "\n" suiteResults)
 
-displaySuite : String -> [String] -> Element
+displaySuite : String -> Suite -> Element
 displaySuite name results
   = leftAligned ((bold (toText name)) ++
     (toText "\n\n") ++
