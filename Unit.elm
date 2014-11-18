@@ -33,6 +33,17 @@ booleanPass = runTests ("Boolean Operators (pass example)",
   , ("(||)", uncurry (||), [(True, True), (True, False), (False, False)],
       [True, True, False]) ])
 
+booleanFail : String
+booleanFail = runTests ("Boolean Operators (fail example)",
+  [ ("(==)", uncurry (==), [(True, True), (True, False), (False, False)], 
+      [False, True, False])
+  , ("(/=)", uncurry (/=), [(True, True), (True, False), (False, False)], 
+      [True, False, True])
+  , ("(&&)", uncurry (&&), [(True, True), (True, False), (False, False)],
+      [False, True, True])
+  , ("(||)", uncurry (||), [(True, True), (True, False), (False, False)],
+      [False, False, True]) ])
+
 digest : String -> a -> b -> b -> String
 digest name args out expected
   = let result = if out == expected then "pass" else "FAIL" 
