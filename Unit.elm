@@ -114,7 +114,8 @@ sampleSuite =
     , run ("(||)", uncurry (||),
         [ (True, True) :- False
         , (True, False) :- False
-        , (False, False) :- True ])])]
+        , (False, False) :- True ])
+    ])]
 
 
 digest : (b -> b -> Bool) -> (a -> b) -> (String, (a, b)) -> String
