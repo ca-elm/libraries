@@ -34,8 +34,10 @@ tuples of their x and y components, so you can use `(,)` as a constructor.
 @docs arrow
 -}
 
+import Graphics.Collage (..)
+
 {-| A two-dimensional vector is represented by its x and y components. -}
-type Vec2 = (Float, Float)
+type alias Vec2 = (Float, Float)
 
 {-| The zero vector. -}
 zero : Vec2

@@ -13,7 +13,7 @@ import this module with an open import, i.e., `import Vec2.Infix (..)`.
 import Vec2
 
 {-| For convenience, this module also exports the `Vec2` type. -}
-type Vec2 = Vec2.Vec2
+type alias Vec2 = Vec2.Vec2
 
 (!+) : Vec2 -> Vec2 -> Vec2
 (!+) = Vec2.sum
