@@ -13,7 +13,7 @@ tuples of their x and y components, so you can use `(,)` as a constructor.
 @docs length, lengthSquared, theta
 
 # Comparing
-@docs distance, distanceSquared, angle
+@docs distance, distanceSquared, angle, min, max
 
 # Arithmetic
 @docs sum, difference, subtract, product, quotient, dot
@@ -25,7 +25,7 @@ tuples of their x and y components, so you can use `(,)` as a constructor.
 @docs rotateLeft, rotateRight, rotate, rotateAround
 
 # Transforming
-@docs flipX, flipY, reciprocate, map
+@docs flipX, flipY, transpose, reciprocate, map
 
 # Converting
 @docs fromInts
@@ -35,6 +35,7 @@ tuples of their x and y components, so you can use `(,)` as a constructor.
 -}
 
 import Graphics.Collage (..)
+import Basics
 
 {-| A two-dimensional vector is represented by its x and y components. -}
 type alias Vec2 = (Float, Float)
@@ -81,7 +82,7 @@ difference = binary (-)
 
       subtract (3,4) (5,7) == (2,3)
       map (subtract one) [(3,4), (1,5)] == [(2,3), (0,4)]
-      
+
 Note that `subtract` is the same thing as `flip difference`
 -}
 subtract : Vec2 -> Vec2 -> Vec2
@@ -218,7 +219,14 @@ flipX (x,y) = (-x,y)
 -}
 flipY : Vec2 -> Vec2
 flipY (x,y) = (x,-y)
-  
+
+{-| Swap the components of a vector.
+
+      transpose (4,7) == (7,4)
+-}
+transpose : Vec2 -> Vec2
+transpose (x,y) = (y,x)
+
 {-| Map a function over the components of a vector.
 
       map (\x -> x^2) (4,5) == (16,25)
@@ -236,7 +244,7 @@ theta (x,y) = atan2 y x
 
 {-| Compute the distance between two vectors.
 
-      V.distance (1,2) (-2,-2) == 5 
+      V.distance (1,2) (-2,-2) == 5
 -}
 distance : Vec2 -> Vec2 -> Float
 distance a = length << difference a
@@ -255,6 +263,20 @@ distanceSquared a = lengthSquared << difference a
 -}
 angle : Vec2 -> Vec2 -> Float
 angle u v = dot u v / length u / length v |> acos
+
+{-| Compute the componentwise minimum of two vectors
+
+      min (2,5) (3,1) == (2,1)
+-}
+min : Vec2 -> Vec2 -> Vec2
+min (x,y) (x',y') = (Basics.min x x', Basics.min y y')
+
+{-| Compute the componentwise maximum of two vectors
+
+      max (2,5) (3,1) == (3,5)
+-}
+max : Vec2 -> Vec2 -> Vec2
+max (x,y) (x',y') = (Basics.max x x', Basics.max y y')
 
 {-| Convert a vector of ints to a Vec2
 
