@@ -1,0 +1,16 @@
+{
+    "version": "0.1.0",
+    "summary": "Libraries for making Elm games.",
+    "repository": "https://github.com/ca-elm/libraries.git",
+    "license": "BSD3",
+    "source-directories": [
+        "."
+    ],
+    "exposed-modules": [
+        "Vec2",
+        "Vec2.Infix"
+    ],
+    "dependencies": {
+        "elm-lang/core": "1.0.0 <= v < 2.0.0"
+    }
+}
