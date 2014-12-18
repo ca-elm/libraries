@@ -28,16 +28,25 @@ module Unit where
 
 -}
 
+import List (..)
+import Text (..)
+import Graphics.Element (..)
 import Util.Function (..)
 
+join : String -> List String -> String
+join s l = case l of
+  [] -> ""
+  (x::[]) -> x
+  (x::xs) -> x ++ s ++ join s xs
+
 {-| A single test made up of a name, a function, and a list of inputs and their expected outputs -}
-type Test a b = (String, (a -> b), [(a, b)])
+type alias Test a b = (String, (a -> b), List (a, b))
 
 {-| A test group made up of the name of the test group, and a list of tests in the group -}
-type TestGroup = (String, [String])
+type alias TestGroup = (String, List String)
 
 {-| A suite made up of multiple String digests -}
-type Suite = [TestGroup]
+type alias Suite = List TestGroup
 
 {-| An alias for tuppling for use in test formatting -}
 (:-) = (,)
@@ -123,8 +132,8 @@ digest compare f (name, (args, expected))
   = let pass = compare (f args) expected
         out = f args
         result = if pass then "pass" else "FAIL"
-    in "\"" ++ name ++ "\"" ++ " of " ++ (show args) ++ " => "
-    ++ (show out) ++ ", expected " ++ (show expected) 
+    in "\"" ++ name ++ "\"" ++ " of " ++ (toString args) ++ " => "
+    ++ (toString out) ++ ", expected " ++ (toString expected) 
     ++ " (" ++ result ++ ")"
 
 {-| Runs a test with (==) as the comparator -}
@@ -134,11 +143,11 @@ run = runWith (==)
 runWith : (b -> b -> Bool) -> Test a b -> String
 runWith compare (name, f, cases)
   = let names = repeat (length cases) name
-        zipped = zip names cases
+        zipped = map2 (,) names cases
     in join "\n" (map (digest compare f) zipped)
 
 {-| Merges a list of test suites into a single test suite -}
-mergeSuites : [Suite] -> Suite
+mergeSuites : List Suite -> Suite
 mergeSuites suites = foldr (++) [] suites
 
 formatTestGroup : TestGroup -> String
@@ -148,10 +157,10 @@ formatTestGroup (name, results)
 {-| Gets the results of a test suite as an Graphics.Element.Element for displaying -}
 displaySuite : String -> Suite -> Element
 displaySuite name results
-  = leftAligned ((bold (toText name)) ++
-    (toText "\n\n") ++
-    (toText (join "\n" (map formatTestGroup results))) ++
-    (toText "\n"))
+  = leftAligned ((bold (fromString name)) ++
+    (fromString "\n\n") ++
+    (fromString (join "\n" (map formatTestGroup results))) ++
+    (fromString "\n"))
 
 {-| Checks if floating point numbers are nearly equal. This is equivalent to fequalr with an epsilon of 0.000001 -}
 fequal : Float -> Float -> Bool
