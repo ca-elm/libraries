@@ -49,6 +49,7 @@ type alias TestGroup = (String, List String)
 type alias Suite = List TestGroup
 
 {-| An alias for tuppling for use in test formatting -}
+(:-) : a -> b -> (a, b)
 (:-) = (,)
 
 {- Example test suites -}
